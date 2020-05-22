@@ -1,0 +1,352 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/Labs/Project
+T_opt
+!s110 1588248179
+V7c64z>3iKIdz4J?Q:1Pc12
+04 11 10 work pwm_counter behavioral 1
+=1-c4651609a024-5eaabe73-16f-14d4
+Z1 o-quiet -auto_acc_if_foreign -work work
+n@_opt
+Z2 OL;O;10.4e;61
+R0
+T_opt1
+!s110 1589207379
+VfhWb29k5=YSBEFbDN@XzN0
+04 17 4 work pwm_controller_tb test 1
+=1-c4651609a024-5eb96153-14b-37f8
+R1
+n@_opt1
+R2
+R0
+T_opt2
+!s110 1590165776
+V[mdNggcmo6B<FLAzBoQTE0
+04 14 10 work pwm_controller behavioral 1
+=1-c4651609a024-5ec80110-217-5a60
+R1
+n@_opt2
+R2
+R0
+Pclocks_pkg
+Z3 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
+Z4 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z5 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
+Z6 w1590156703
+Z7 dC:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER
+Z8 8C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/clocks_pkg.vhd
+Z9 FC:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/clocks_pkg.vhd
+l0
+L5
+V@Y_FECWEKVC06;=:e_:n80
+!s100 Im8D9oAd_SXS<bKMg@VQ90
+Z10 OL;C;10.4e;61
+32
+b1
+Z11 !s110 1590170305
+!i10b 1
+Z12 !s108 1590170305.000000
+Z13 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|-stats=none|C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/clocks_pkg.vhd|
+Z14 !s107 C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/clocks_pkg.vhd|
+!i113 0
+Z15 o-work work -2002 -explicit
+Z16 tExplicit 1
+Bbody
+Z17 DPx4 work 10 clocks_pkg 0 22 @Y_FECWEKVC06;=:e_:n80
+R3
+R4
+R5
+32
+R11
+l0
+L13
+V8=hDh>bn?bh0QEfFhVhi>3
+!s100 a9Ok>zm:QkZSUC@FE0X;D2
+R10
+!i10b 1
+R12
+R13
+R14
+!i113 0
+R15
+R16
+Edigi_clk
+w1587649269
+R4
+R5
+R7
+Z18 8C:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\servo_clk512khz.vhd
+Z19 FC:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\servo_clk512khz.vhd
+l0
+L4
+VYf>NA^nJ1@bn<Ag6zdL8Z2
+!s100 WZRDIo`Fb>CjmHOM@:oJd1
+R10
+32
+!s110 1587649270
+!i10b 1
+!s108 1587649270.000000
+Z20 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|-stats=none|C:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\servo_clk512khz.vhd|
+Z21 !s107 C:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\servo_clk512khz.vhd|
+!i113 0
+R15
+R16
+Epwm_controller
+Z22 w1590165895
+Z23 DPx4 work 6 pwm_pk 0 22 0DgEknjHJ[k@BzDC=1ha_3
+R3
+R4
+R5
+R7
+Z24 8C:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\pwm_controller_entity.vhd
+Z25 FC:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\pwm_controller_entity.vhd
+l0
+L7
+VPDm7Pdf7Q9=?Nfi0g]83P2
+!s100 R:i<8z8k?i65zoI5T6o`?2
+R10
+32
+R11
+!i10b 1
+R12
+Z26 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|-stats=none|C:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\pwm_controller_entity.vhd|
+Z27 !s107 C:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\pwm_controller_entity.vhd|
+!i113 0
+R15
+R16
+Abehavioral
+R23
+R3
+R4
+R5
+DEx4 work 14 pwm_controller 0 22 PDm7Pdf7Q9=?Nfi0g]83P2
+l32
+L18
+V7:bT2Ni^UInJLbY?1A^3f3
+!s100 VKKF`3Ll8kPE;iQE9;z0T3
+R10
+32
+R11
+!i10b 1
+R12
+R26
+R27
+!i113 0
+R15
+R16
+Epwm_controller_tb
+Z28 w1590165046
+R17
+R3
+R4
+R5
+R7
+Z29 8C:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\pwm_controller_tb.vhd
+Z30 FC:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\pwm_controller_tb.vhd
+l0
+L6
+VXfN`aX71?eTh:FiG0N]lM2
+!s100 DVZEK?QgM?Yn]IZI[1cka2
+R10
+32
+R11
+!i10b 1
+R12
+Z31 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|-stats=none|C:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\pwm_controller_tb.vhd|
+Z32 !s107 C:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\pwm_controller_tb.vhd|
+!i113 0
+R15
+R16
+Atest
+R17
+R3
+R4
+R5
+DEx4 work 17 pwm_controller_tb 0 22 XfN`aX71?eTh:FiG0N]lM2
+l37
+L9
+VVzPLSIh61VjUgbXh`CWQo0
+!s100 bD;W]cLk:<9?5RO;l3Kc32
+R10
+32
+R11
+!i10b 1
+R12
+R31
+R32
+!i113 0
+R15
+R16
+Epwm_counter
+Z33 w1590170221
+R3
+R4
+R5
+R7
+Z34 8C:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\pwm_counter_en.vhd
+Z35 FC:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\pwm_counter_en.vhd
+l0
+L4
+V4H1ig4b=OH0^XOP9HXD120
+!s100 dQh1jdH<5F:5hjYVnTeSQ1
+R10
+32
+R11
+!i10b 1
+R12
+Z36 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|-stats=none|C:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\pwm_counter_en.vhd|
+Z37 !s107 C:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\pwm_counter_en.vhd|
+!i113 0
+R15
+R16
+Abehavioral
+R3
+R4
+R5
+DEx4 work 11 pwm_counter 0 22 4H1ig4b=OH0^XOP9HXD120
+32
+R11
+l16
+L12
+VdKmAh18V[Z0o01Kn3IY`C2
+!s100 lfl0f^^BW]QbR:VlUYlO:1
+R10
+!i10b 1
+R12
+R36
+R37
+!i113 0
+R15
+R16
+Epwm_counter_tb
+Z38 w1590170302
+R17
+R3
+R4
+R5
+R7
+Z39 8C:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\pwm_counter_tb.vhd
+Z40 FC:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\pwm_counter_tb.vhd
+l0
+L6
+VDTfhQnShlXX>BMaS;8f>H3
+!s100 mJe^X?QU>Eio2aG7RnGZD2
+R10
+32
+R11
+!i10b 1
+R12
+Z41 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|-stats=none|C:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\pwm_counter_tb.vhd|
+Z42 !s107 C:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\pwm_counter_tb.vhd|
+!i113 0
+R15
+R16
+Atest
+R17
+R3
+R4
+R5
+DEx4 work 14 pwm_counter_tb 0 22 DTfhQnShlXX>BMaS;8f>H3
+32
+R11
+l25
+L9
+VC[kjo9Yn5MzUnQVVnkEX`0
+!s100 MKedDaIN9lR@AOQ2^Ih@Y2
+R10
+!i10b 1
+R12
+R41
+R42
+!i113 0
+R15
+R16
+Ppwm_pk
+R3
+R4
+R5
+w1588246362
+R7
+8C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/pwm_pk.vhd
+FC:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/pwm_pk.vhd
+l0
+L5
+V0DgEknjHJ[k@BzDC=1ha_3
+!s100 4i21BFGXkB<]6Ve<OC@Rc2
+R10
+32
+R11
+!i10b 1
+R12
+!s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|-stats=none|C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/pwm_pk.vhd|
+!s107 C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/pwm_pk.vhd|
+!i113 0
+R15
+R16
+Eservo_clk512khz
+Z43 w1588165922
+R4
+R5
+R7
+Z44 8C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/servo_clk512khz.vhd
+Z45 FC:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/servo_clk512khz.vhd
+l0
+L7
+VbhRo9g=`[5jVc7CPh>jGM0
+!s100 9GAmRzzG6:80<;;nQHA[D2
+R10
+32
+R11
+!i10b 1
+R12
+Z46 !s90 -reportprogress|300|-work|work|-2002|-explicit|-vopt|-stats=none|C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/servo_clk512khz.vhd|
+Z47 !s107 C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/servo_clk512khz.vhd|
+!i113 0
+R15
+R16
+Abehavioral
+R4
+R5
+DEx4 work 15 servo_clk512khz 0 22 bhRo9g=`[5jVc7CPh>jGM0
+l19
+L14
+VF7T3C<`bYb_=m@`CTQeiL1
+!s100 Yjk99gNLcO=6VNgz639Sa2
+R10
+32
+R11
+!i10b 1
+R12
+R46
+R47
+!i113 0
+R15
+R16
+Eservo_clk_gen
+w1587649365
+R4
+R5
+R7
+R18
+R19
+l0
+L4
+V42P5:7eS:5:kO;kXDSL;T2
+!s100 C5Yg_Z[RcPV@e?[i`Vg]03
+R10
+32
+!s110 1587649367
+!i10b 1
+!s108 1587649367.000000
+R20
+R21
+!i113 0
+R15
+R16

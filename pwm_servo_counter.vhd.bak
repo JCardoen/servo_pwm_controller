@@ -1,0 +1,11 @@
+
+entity PWM_Servo_Counter is
+  port (
+    rst : in std_logic;
+    clk : in std_logic;
+    servo_clk: in std_logic;
+    set  : in std_logic;
+    done: out std_logic := '1';
+    addrdata   : in bit_vector(7 downto 0);
+    pwm   : out std_logic);
+end PWM_Controller;
