@@ -5,6 +5,7 @@ LIBRARY work;
 USE work.pwm_pk.ALL;
 
 ENTITY PWM_Controller IS
+    GENERIC (address : std_logic_vector(7 DOWNTO 0) := "00000001");
     PORT (
         rst : IN std_logic;
         clk : IN std_logic;
@@ -37,8 +38,6 @@ BEGIN
     PROCESS (rst, clk) -- start process on change of rst, clk 
     BEGIN
         IF (rst = '1') THEN
-            -- HALT 
-            is_addr_servo <= FALSE;
             addr_is_read <= FALSE;
             data_is_read <= FALSE;
             data_read <= "10000000";
@@ -48,7 +47,7 @@ BEGIN
             IF (set = '1') THEN
                 -- first clock pulse: read addr
                 -- second clock pulse: read data and set done to zero
-                IF (addrdata = BROADCAST_ADDR OR addrdata = UNICAST_ADDR) AND addr_correct = 0 THEN
+                IF (addrdata = BROADCAST_ADDR OR addrdata = address) AND addr_correct = 0 THEN
                     addr_is_read <= TRUE;
                     addr_correct <= 1;
                     done <= '0';
@@ -67,7 +66,7 @@ BEGIN
                     END IF;
                     IF data_is_read = TRUE THEN
                         done <= '1';
-			addr_correct <= 0;
+                        addr_correct <= 0;
                     END IF;
                 END IF;
             ELSE

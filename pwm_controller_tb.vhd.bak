@@ -55,31 +55,29 @@ BEGIN
         REPORT " -- Simulation start --"
             SEVERITY note;
         -- INITIAL
-	WAIT UNTIL rising_edge(clk);
+        WAIT UNTIL rising_edge(clk);
         set <= '0';
         rst <= '1';
         WAIT UNTIL rising_edge(clk);
-	rst <= '0';
+        rst <= '0';
         set <= '1'; -- SET
-        addrdata <= (OTHERS => '1'); -- BROADCAST
+        addrdata <= "00000001"; -- BROADCAST
         ASSERT done = '1'
         REPORT "Done should remain H if data has not been sent"
-        SEVERITY error;
+            SEVERITY error;
         WAIT UNTIL rising_edge(clk);
         addrdata <= (OTHERS => '0'); -- NOW SEND DATA 00000000
-	ASSERT done = '0'
-        REPORT "Done should be L when sending data"
-        SEVERITY error;
         WAIT UNTIL rising_edge(clk);
-	set <= '0'; -- UNSET
-	ASSERT done = '0'
+        set <= '0'; -- UNSET
+        ASSERT done = '0'
         REPORT "Done should be L when building PWM"
-        SEVERITY error;
-	WAIT UNTIL rising_edge(clk);
-        ASSERT done = '1'
+            SEVERITY error;
+        WAIT UNTIL rising_edge(clk);
+        
+        WAIT UNTIL rising_edge(clk);
+ASSERT done = '1'
         REPORT "Done should be H when PWM is built"
-        SEVERITY error;
-	WAIT UNTIL rising_edge(clk);
+            SEVERITY error;
         REPORT "-- Simulation done --"
             SEVERITY note;
         end_simulation <= true;
