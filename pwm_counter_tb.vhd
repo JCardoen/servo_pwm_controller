@@ -76,7 +76,8 @@ BEGIN
             asserted_time_diff := asserted_time - time_pwm_diff;
             REPORT "Ton of PWM (ms) : " & real'image(real(time_pwm_diff / 1 ns));
             REPORT "Current position " & INTEGER'image(current_pwm);
-            REPORT "Time difference between Ton and calculated test time: " & TIME'image(asserted_time_diff);
+            REPORT "Time difference between Ton and calculated test time: "
+                & TIME'image(asserted_time_diff);
             ASSERT asserted_time_diff < 1 us
             REPORT "Asserted Ton does not equal the output of the PWM Counter"
                 SEVERITY error;

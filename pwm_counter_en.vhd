@@ -5,7 +5,7 @@ ENTITY PWM_Counter IS
     PORT (
         rst : IN std_logic;
         servo_clk : IN std_logic;
-        position : IN std_logic_vector(7 DOWNTO 0) := "10000000";
+        position : IN std_logic_vector(7 DOWNTO 0);
         pwm : OUT std_logic);
 END PWM_Counter;
 
@@ -16,9 +16,7 @@ BEGIN
     offset_pos <= unsigned("0000" & position) + 640; -- offset
     PROCESS (rst, servo_clk)
     BEGIN
-        IF (rst = '1') THEN
-	    counter <= (OTHERS => '0');
-        ELSIF rising_edge(servo_clk) THEN
+        IF rising_edge(servo_clk) THEN
             IF (counter < 10240) THEN
                 counter <= counter + 1;
             ELSE

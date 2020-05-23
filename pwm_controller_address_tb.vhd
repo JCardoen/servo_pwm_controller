@@ -54,17 +54,20 @@ BEGIN
     BEGIN
         REPORT " -- Simulation start --"
             SEVERITY note;
-        -- INITIAL
+        WAIT UNTIL rising_edge(clk);
         set <= '0';
         rst <= '1';
         WAIT UNTIL rising_edge(clk);
         rst <= '0';
-	WAIT UNTIL rising_edge(clk);
-	set <= '1'; -- SET
-        addrdata <= "00010001"; -- ADDRESS NOT IDENTICAL TO CONTROLLER
-	WAIT UNTIL rising_edge(clk);
-	addrdata <= "11111111";
-	WAIT UNTIL rising_edge(clk);
+        WAIT UNTIL rising_edge(clk);
+        set <= '1';
+        addrdata <= "10100000"; -- send random address
+        WAIT UNTIL rising_edge(clk);
+        addrdata <= (OTHERS => '1'); -- NOW SEND DATA 111111111
+        WAIT UNTIL rising_edge(clk);
+        set <= '0'; -- UNSET
+        WAIT UNTIL rising_edge(clk);
+        WAIT UNTIL rising_edge(clk);
         REPORT "-- Simulation done --"
             SEVERITY note;
         end_simulation <= true;
