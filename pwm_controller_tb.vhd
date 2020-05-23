@@ -85,12 +85,6 @@ BEGIN
         REPORT "Done should be H when PWM is built"
         SEVERITY error;
 	WAIT UNTIL rising_edge(clk);
-	REPORT "Sending set H and faulty address, controller should do nothing"
-	SEVERITY note;
-	-- SEND WRONG data
-	set <= '1'; -- SET
-        addrdata <= "00010001"; -- ADDRESS NOT IDENTICAL TO CONTROLLER
-	WAIT UNTIL rising_edge(clk);
         REPORT "-- Simulation done --"
             SEVERITY note;
         end_simulation <= true;

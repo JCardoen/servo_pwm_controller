@@ -3,7 +3,7 @@ USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL;
 USE work.clocks_pkg.ALL;
 
-ENTITY pwm_controller_address_tb IS
+ENTITY pwm_controller_rst_tb IS
 END ENTITY;
 
 ARCHITECTURE test OF pwm_controller_tb IS
@@ -55,11 +55,7 @@ BEGIN
         REPORT " -- Simulation start --"
             SEVERITY note;
         -- INITIAL
-        set <= '0';
-        WAIT FOR 20ns;
         rst <= '1';
-        WAIT FOR 20ms;
-        rst <= '0';
         WAIT UNTIL rising_edge(clk);
         set <= '1'; -- SET
         addrdata <= (OTHERS => '1'); -- BROADCAST
@@ -84,12 +80,6 @@ BEGIN
         ASSERT done = '1'
         REPORT "Done should be H when PWM is built"
         SEVERITY error;
-	WAIT UNTIL rising_edge(clk);
-	REPORT "Sending set H and faulty address, controller should do nothing"
-	SEVERITY note;
-	-- SEND WRONG data
-	set <= '1'; -- SET
-        addrdata <= "00010001"; -- ADDRESS NOT IDENTICAL TO CONTROLLER
 	WAIT UNTIL rising_edge(clk);
         REPORT "-- Simulation done --"
             SEVERITY note;

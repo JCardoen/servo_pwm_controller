@@ -6,7 +6,7 @@ USE work.clocks_pkg.ALL;
 ENTITY pwm_controller_address_tb IS
 END ENTITY;
 
-ARCHITECTURE test OF pwm_controller_tb IS
+ARCHITECTURE test OF pwm_controller_address_tb IS
     SIGNAL clk : std_logic := '0';
     SIGNAL rst : std_logic;
     SIGNAL set : std_logic;
@@ -56,40 +56,14 @@ BEGIN
             SEVERITY note;
         -- INITIAL
         set <= '0';
-        WAIT FOR 20ns;
         rst <= '1';
-        WAIT FOR 20ms;
+        WAIT UNTIL rising_edge(clk);
         rst <= '0';
-        WAIT UNTIL rising_edge(clk);
-        set <= '1'; -- SET
-        addrdata <= (OTHERS => '1'); -- BROADCAST
-        ASSERT done = '1'
-        REPORT "Done should remain H if data has not been sent"
-        SEVERITY error;
-        WAIT UNTIL rising_edge(clk);
-        addrdata <= (OTHERS => '0'); -- NOW SEND DATA 00000000
 	WAIT UNTIL rising_edge(clk);
-        ASSERT done = '0'
-        REPORT "Done should be L when sending data"
-        SEVERITY error;
-        ASSERT set = '1'
-        REPORT "Set should still be H when sending data"
-        SEVERITY error;
-        WAIT UNTIL rising_edge(clk);
-        set <= '0'; -- UNSET
-        ASSERT done = '0'
-        REPORT "Done should remain L when PWM is being built"
-        SEVERITY error;
-        WAIT UNTIL rising_edge(clk);
-        ASSERT done = '1'
-        REPORT "Done should be H when PWM is built"
-        SEVERITY error;
-	WAIT UNTIL rising_edge(clk);
-	REPORT "Sending set H and faulty address, controller should do nothing"
-	SEVERITY note;
-	-- SEND WRONG data
 	set <= '1'; -- SET
         addrdata <= "00010001"; -- ADDRESS NOT IDENTICAL TO CONTROLLER
+	WAIT UNTIL rising_edge(clk);
+	addrdata <= "11111111";
 	WAIT UNTIL rising_edge(clk);
         REPORT "-- Simulation done --"
             SEVERITY note;

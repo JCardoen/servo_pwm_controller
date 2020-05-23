@@ -86,6 +86,7 @@ BEGIN
         SEVERITY error;
 	WAIT UNTIL rising_edge(clk);
 	REPORT "Sending set H and faulty address, controller should do nothing"
+	SEVERITY note;
 	-- SEND WRONG data
 	set <= '1'; -- SET
         addrdata <= "00010001"; -- ADDRESS NOT IDENTICAL TO CONTROLLER

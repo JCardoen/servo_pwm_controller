@@ -6,25 +6,15 @@ QuestaSim-64 vcom 10.4e Compiler 2016.04 Apr  9 2016
 -- Loading package NUMERIC_STD
 -- Compiling package pwm_pk
 
-} {} {}} {C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/pwm_controller_entity.vhd} {1 {vcom -work work -2002 -explicit -vopt -stats=none {C:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\pwm_controller_entity.vhd}
-QuestaSim-64 vcom 10.4e Compiler 2016.04 Apr  9 2016
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Loading package NUMERIC_STD
--- Loading package pwm_pk
--- Compiling entity PWM_Controller
--- Compiling architecture behavioral of PWM_Controller
-
-} {} {}} {C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/pwm_counter_tb.vhd} {1 {vcom -work work -2002 -explicit -vopt -stats=none {C:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\pwm_counter_tb.vhd}
+} {} {}} {C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/pwm_controller_rst_tb.vhd} {1 {vcom -work work -2002 -explicit -vopt -stats=none {C:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\pwm_controller_rst_tb.vhd}
 QuestaSim-64 vcom 10.4e Compiler 2016.04 Apr  9 2016
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
 -- Loading package NUMERIC_STD
 -- Loading package clocks_pkg
--- Compiling entity pwm_counter_tb
--- Compiling architecture test of pwm_counter_tb
+-- Compiling entity pwm_controller_rst_tb
+-- Compiling architecture test of pwm_controller_rst_tb
 
 } {} {}} {C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/clocks_pkg.vhd} {1 {vcom -work work -2002 -explicit -vopt -stats=none {C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/clocks_pkg.vhd}
 QuestaSim-64 vcom 10.4e Compiler 2016.04 Apr  9 2016
@@ -36,7 +26,17 @@ QuestaSim-64 vcom 10.4e Compiler 2016.04 Apr  9 2016
 -- Compiling package body clocks_pkg
 -- Loading package clocks_pkg
 
-} {} {}} {C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/pwm_controller_tb.vhd} {2 {vcom -work work -2002 -explicit -vopt -stats=none {C:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\pwm_controller_tb.vhd}
+} {} {}} {C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/pwm_counter_tb.vhd} {1 {vcom -work work -2002 -explicit -vopt -stats=none {C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/pwm_counter_tb.vhd}
+QuestaSim-64 vcom 10.4e Compiler 2016.04 Apr  9 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package clocks_pkg
+-- Compiling entity pwm_counter_tb
+-- Compiling architecture test of pwm_counter_tb
+
+} {} {}} {C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/pwm_controller_tb.vhd} {2 {vcom -work work -2002 -explicit -vopt -stats=none {C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/pwm_controller_tb.vhd}
 QuestaSim-64 vcom 10.4e Compiler 2016.04 Apr  9 2016
 -- Loading package STANDARD
 -- Loading package TEXTIO
@@ -45,10 +45,10 @@ QuestaSim-64 vcom 10.4e Compiler 2016.04 Apr  9 2016
 -- Loading package clocks_pkg
 -- Compiling entity pwm_controller_tb
 -- Compiling architecture test of pwm_controller_tb
-** Warning: C:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\pwm_controller_tb.vhd(59): (vcom-1207) An abstract literal and an identifier must have a separator between them.
-** Warning: C:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\pwm_controller_tb.vhd(61): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/pwm_controller_tb.vhd(59): (vcom-1207) An abstract literal and an identifier must have a separator between them.
+** Warning: C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/pwm_controller_tb.vhd(61): (vcom-1207) An abstract literal and an identifier must have a separator between them.
 
-} {} {}} {C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/pwm_counter_en.vhd} {1 {vcom -work work -2002 -explicit -vopt -stats=none {C:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\pwm_counter_en.vhd}
+} {} {}} {C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/pwm_counter_en.vhd} {1 {vcom -work work -2002 -explicit -vopt -stats=none {C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/pwm_counter_en.vhd}
 QuestaSim-64 vcom 10.4e Compiler 2016.04 Apr  9 2016
 -- Loading package STANDARD
 -- Loading package TEXTIO
@@ -57,12 +57,14 @@ QuestaSim-64 vcom 10.4e Compiler 2016.04 Apr  9 2016
 -- Compiling entity PWM_Counter
 -- Compiling architecture behavioral of PWM_Counter
 
-} {} {}} {C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/servo_clk512khz.vhd} {1 {vcom -work work -2002 -explicit -vopt -stats=none {C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/servo_clk512khz.vhd}
+} {} {}} {C:/Users/JoachimCardoen/Google Drive/UGent/Schakelprogramma/Semester 2/Ingebedde systemen - hardware synthese/PWM_CONTROLLER/pwm_controller_address_tb.vhd} {1 {vcom -work work -2002 -explicit -vopt -stats=none {C:\Users\JoachimCardoen\Google Drive\UGent\Schakelprogramma\Semester 2\Ingebedde systemen - hardware synthese\PWM_CONTROLLER\pwm_controller_address_tb.vhd}
 QuestaSim-64 vcom 10.4e Compiler 2016.04 Apr  9 2016
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
--- Compiling entity servo_clk512khz
--- Compiling architecture behavioral of servo_clk512khz
+-- Loading package NUMERIC_STD
+-- Loading package clocks_pkg
+-- Compiling entity pwm_controller_address_tb
+-- Compiling architecture test of pwm_controller_address_tb
 
 } {} {}}

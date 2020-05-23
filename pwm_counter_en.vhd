@@ -5,14 +5,13 @@ ENTITY PWM_Counter IS
     PORT (
         rst : IN std_logic;
         servo_clk : IN std_logic;
-        position : IN std_logic_vector(7 DOWNTO 0);
+        position : IN std_logic_vector(7 DOWNTO 0) := "10000000";
         pwm : OUT std_logic);
 END PWM_Counter;
 
 ARCHITECTURE behavioral OF PWM_Counter IS
     SIGNAL counter : unsigned(13 DOWNTO 0);
     SIGNAL offset_pos : unsigned(11 DOWNTO 0);
-    SIGNAL default_pos : unsigned(7 DOWNTO 0) := "10000000";
 BEGIN
     offset_pos <= unsigned("0000" & position) + 640; -- offset
     PROCESS (rst, servo_clk)

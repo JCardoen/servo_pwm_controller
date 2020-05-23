@@ -35,7 +35,7 @@ BEGIN
     clock(clk, 20 ms, end_simulation);
 
     stimuli_gen : PROCESS
-    VARIABLE count : integer := 0;
+        VARIABLE count : INTEGER := 0;
     BEGIN
         REPORT " -- Simulation start --"
             SEVERITY note;
@@ -43,13 +43,13 @@ BEGIN
         WAIT UNTIL rising_edge(clk);
         rst <= '0';
         WHILE count < 8 LOOP
-	    
+
             WAIT UNTIL rising_edge(clk);
             position <= std_logic_vector(unsigned(position) + 32);
-	    count := count + 1;
+            count := count + 1;
         END LOOP;
         position <= "11111111";
-	WAIT UNTIL rising_edge(clk);
+        WAIT UNTIL rising_edge(clk);
         REPORT "-- Simulation done --"
             SEVERITY note;
         end_simulation <= TRUE;
@@ -57,29 +57,29 @@ BEGIN
     END PROCESS stimuli_gen;
 
     -- Process to calculate Ton of PWM signal
-    test_pwm : PROCESS(pwm)
-    VARIABLE time_pwm_rising : time;
-    VARIABLE time_pwm_falling : time;
-    VARIABLE time_pwm_diff : time;
-    VARIABLE current_pwm : integer;
-    VARIABLE asserted_time : time;
-    VARIABLE asserted_time_diff : time;
-    VARIABLE servo_clock_period : time := 1.953125 us;
+    test_pwm : PROCESS (pwm)
+        VARIABLE time_pwm_rising : TIME;
+        VARIABLE time_pwm_falling : TIME;
+        VARIABLE time_pwm_diff : TIME;
+        VARIABLE current_pwm : INTEGER;
+        VARIABLE asserted_time : TIME;
+        VARIABLE asserted_time_diff : TIME;
+        VARIABLE servo_clock_period : TIME := 1.953125 us;
     BEGIN
-    if pwm = '1' then
-        time_pwm_rising := now; 
-    else
-        time_pwm_falling := now; 
-	time_pwm_diff := time_pwm_falling - time_pwm_rising;
-	current_pwm := to_integer(unsigned(position));
-	asserted_time := 1.25 ms + (current_pwm * servo_clock_period);
-	asserted_time_diff := asserted_time - time_pwm_diff;
-	report "Ton of PWM (ms) : " & real'image(real(time_pwm_diff / 1 ns));
-	report "Current position " & integer'image(current_pwm);
-	report "Time difference between Ton and calculated test time: " & time'image(asserted_time_diff);
-	assert asserted_time_diff < 1 us
-	REPORT "Asserted Ton does not equal the output of the PWM Counter"
-        SEVERITY error;
-    end if;
+        IF pwm = '1' THEN
+            time_pwm_rising := now;
+        ELSE
+            time_pwm_falling := now;
+            time_pwm_diff := time_pwm_falling - time_pwm_rising;
+            current_pwm := to_integer(unsigned(position));
+            asserted_time := 1.25 ms + (current_pwm * servo_clock_period);
+            asserted_time_diff := asserted_time - time_pwm_diff;
+            REPORT "Ton of PWM (ms) : " & real'image(real(time_pwm_diff / 1 ns));
+            REPORT "Current position " & INTEGER'image(current_pwm);
+            REPORT "Time difference between Ton and calculated test time: " & TIME'image(asserted_time_diff);
+            ASSERT asserted_time_diff < 1 us
+            REPORT "Asserted Ton does not equal the output of the PWM Counter"
+                SEVERITY error;
+        END IF;
     END PROCESS test_pwm;
 END test;
