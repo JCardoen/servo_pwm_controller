@@ -1,0 +1,76 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
+USE work.clocks_pkg.ALL;
+
+ENTITY pwm_controller_address_tb IS
+END ENTITY;
+
+ARCHITECTURE test OF pwm_controller_address_tb IS
+    SIGNAL clk : std_logic := '0';
+    SIGNAL rst : std_logic;
+    SIGNAL set : std_logic;
+    SIGNAL servo_clk : std_logic := '0';
+    SIGNAL done : std_logic;
+    SIGNAL addrdata : std_logic_vector(7 DOWNTO 0) := (OTHERS => '0');
+    SIGNAL pwm : std_logic;
+    SIGNAL end_simulation : BOOLEAN := FALSE;
+
+    COMPONENT PWM_Counter IS
+        PORT (
+            rst : IN std_logic;
+            servo_clk : IN std_logic;
+            position : IN std_logic_vector(7 DOWNTO 0);
+            pwm : OUT std_logic);
+    END COMPONENT;
+    COMPONENT PWM_Controller IS
+        PORT (
+            rst : IN std_logic;
+            clk : IN std_logic;
+            servo_clk : IN std_logic;
+            set : IN std_logic;
+            done : OUT std_logic;
+            addrdata : IN std_logic_vector(7 DOWNTO 0);
+            pwm : OUT std_logic);
+    END COMPONENT;
+
+BEGIN
+
+    UUT : PWM_Controller
+    PORT MAP(
+        rst => rst,
+        clk => clk,
+        servo_clk => servo_clk,
+        set => set,
+        done => done,
+        addrdata => addrdata,
+        pwm => pwm);
+
+    -- Generate clock signals using clocks_pkg
+    clock(servo_clk, 1.953125 us, end_simulation);
+    clock(clk, 20 ms, end_simulation);
+
+    stimuli_gen : PROCESS
+    BEGIN
+        REPORT " -- Simulation start --"
+            SEVERITY note;
+        WAIT UNTIL rising_edge(clk);
+        set <= '0';
+        rst <= '1';
+        WAIT UNTIL rising_edge(clk);
+        rst <= '0';
+        WAIT UNTIL rising_edge(clk);
+        set <= '1';
+        addrdata <= "10100000"; -- send random address
+        WAIT UNTIL rising_edge(clk);
+        addrdata <= (OTHERS => '1'); -- NOW SEND DATA 111111111
+        WAIT UNTIL rising_edge(clk);
+        set <= '0'; -- UNSET
+        WAIT UNTIL rising_edge(clk);
+        WAIT UNTIL rising_edge(clk);
+        REPORT "-- Simulation done --"
+            SEVERITY note;
+        end_simulation <= true;
+        WAIT;
+    END PROCESS stimuli_gen;
+END ARCHITECTURE test;

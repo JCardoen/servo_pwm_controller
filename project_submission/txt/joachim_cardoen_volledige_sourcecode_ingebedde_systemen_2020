@@ -1,0 +1,469 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
+
+PACKAGE clocks_pkg IS
+    PROCEDURE clock(
+        SIGNAL clk : INOUT std_logic;
+        CONSTANT period : IN TIME;
+        SIGNAL end_simulation : IN BOOLEAN
+    );
+END PACKAGE clocks_pkg;
+
+PACKAGE BODY clocks_pkg IS
+    PROCEDURE clock(SIGNAL clk : INOUT std_logic; CONSTANT period : IN TIME; SIGNAL end_simulation : IN BOOLEAN) IS
+    BEGIN
+        LOOP
+            EXIT WHEN end_simulation;
+            clk <= NOT clk;
+            WAIT FOR period/2;
+        END LOOP;
+    END PROCEDURE clock;
+END PACKAGE BODY clocks_pkg;
+
+LIBRARY IEEE;
+USE IEEE.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
+
+PACKAGE pwm_pk IS
+    CONSTANT BROADCAST_ADDR : std_logic_vector(7 DOWNTO 0) := "11111111";
+    CONSTANT UNICAST_ADDR : std_logic_vector(7 DOWNTO 0) := "00000001";
+    -- UNICAST_ADDR is deprecated since using the generic approach
+END PACKAGE;
+
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
+LIBRARY work;
+USE work.pwm_pk.ALL;
+
+ENTITY PWM_Controller IS
+    GENERIC (address : std_logic_vector(7 DOWNTO 0) := "00000001");
+    PORT (
+        rst : IN std_logic;
+        clk : IN std_logic;
+        servo_clk : IN std_logic;
+        set : IN std_logic;
+        done : OUT std_logic;
+        addrdata : IN std_logic_vector(7 DOWNTO 0) := (OTHERS => '0');
+        pwm : OUT std_logic);
+END PWM_Controller;
+
+ARCHITECTURE behavioral OF PWM_Controller IS
+    COMPONENT PWM_Counter IS
+        PORT (
+            rst : IN std_logic;
+            servo_clk : IN std_logic;
+            position : IN std_logic_vector(7 DOWNTO 0);
+            pwm : OUT std_logic);
+    END COMPONENT;
+
+    SIGNAL addr_is_read : BOOLEAN := FALSE;
+    SIGNAL data_is_read : BOOLEAN := FALSE;
+    SIGNAL is_addr_servo : BOOLEAN := FALSE;
+    SIGNAL data_read : std_logic_vector(7 DOWNTO 0);
+    SIGNAL addr_correct : INTEGER := 0;
+BEGIN
+    pwm_counter_map : PWM_Counter PORT MAP(
+        rst => rst, servo_clk => servo_clk, position => data_read, pwm => pwm
+    );
+
+    PROCESS (rst, clk) -- start process on change of rst, clk 
+    BEGIN
+        IF (rst = '1') THEN
+            addr_is_read <= FALSE;
+            data_is_read <= FALSE;
+            data_read <= "10000000";
+            done <= '1';
+            addr_correct <= 0;
+        ELSIF rising_edge (clk) THEN
+            IF (set = '1') THEN
+                -- first clock pulse: read addr
+                -- second clock pulse: read data and set done to zero
+                IF (addrdata = BROADCAST_ADDR OR addrdata = address) AND addr_correct = 0 THEN
+                    addr_is_read <= TRUE;
+                    addr_correct <= 1;
+                    done <= '0';
+                ELSE
+                    IF addr_correct = 0 THEN
+                        addr_correct <= 2;
+                    END IF;
+
+                    IF addr_is_read = TRUE AND addr_correct = 1 THEN
+                        -- read data
+                        data_is_read <= TRUE;
+                        data_read <= addrdata;
+                        done <= '0';
+                    ELSE
+                        done <= '1';
+                    END IF;
+                    IF data_is_read = TRUE THEN
+                        done <= '1';
+                        addr_correct <= 0;
+                    END IF;
+                END IF;
+            ELSE
+                done <= '1';
+            END IF;
+        END IF;
+    END PROCESS;
+END ARCHITECTURE;
+
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
+USE work.clocks_pkg.ALL;
+
+ENTITY pwm_controller_tb IS
+END ENTITY;
+
+ARCHITECTURE test OF pwm_controller_tb IS
+    SIGNAL clk : std_logic := '0';
+    SIGNAL rst : std_logic;
+    SIGNAL set : std_logic;
+    SIGNAL servo_clk : std_logic := '0';
+    SIGNAL done : std_logic;
+    SIGNAL addrdata : std_logic_vector(7 DOWNTO 0) := (OTHERS => '0');
+    SIGNAL pwm : std_logic;
+    SIGNAL end_simulation : BOOLEAN := FALSE;
+
+    COMPONENT PWM_Counter IS
+        PORT (
+            rst : IN std_logic;
+            servo_clk : IN std_logic;
+            position : IN std_logic_vector(7 DOWNTO 0);
+            pwm : OUT std_logic);
+    END COMPONENT;
+    COMPONENT PWM_Controller IS
+        PORT (
+            rst : IN std_logic;
+            clk : IN std_logic;
+            servo_clk : IN std_logic;
+            set : IN std_logic;
+            done : OUT std_logic;
+            addrdata : IN std_logic_vector(7 DOWNTO 0);
+            pwm : OUT std_logic);
+    END COMPONENT;
+
+BEGIN
+
+    UUT : PWM_Controller
+    PORT MAP(
+        rst => rst,
+        clk => clk,
+        servo_clk => servo_clk,
+        set => set,
+        done => done,
+        addrdata => addrdata,
+        pwm => pwm);
+
+    -- Generate clock signals using clocks_pkg
+    clock(servo_clk, 1.953125 us, end_simulation);
+    clock(clk, 20 ms, end_simulation);
+
+    stimuli_gen : PROCESS
+    BEGIN
+        REPORT " -- Simulation start --"
+            SEVERITY note;
+        -- INITIAL
+        WAIT UNTIL rising_edge(clk);
+        set <= '0';
+        rst <= '1';
+        WAIT UNTIL rising_edge(clk);
+        rst <= '0';
+        set <= '1'; -- SET
+        addrdata <= "00000001"; -- BROADCAST
+        ASSERT done = '1'
+        REPORT "Done should remain H if data has not been sent"
+            SEVERITY error;
+        WAIT UNTIL rising_edge(clk);
+        addrdata <= (OTHERS => '0'); -- NOW SEND DATA 00000000
+        WAIT UNTIL rising_edge(clk);
+        set <= '0'; -- UNSET
+        ASSERT done = '0'
+        REPORT "Done should be L when building PWM"
+            SEVERITY error;
+        WAIT UNTIL rising_edge(clk);
+
+        WAIT UNTIL rising_edge(clk);
+        ASSERT done = '1'
+        REPORT "Done should be H when PWM is built"
+            SEVERITY error;
+        REPORT "-- Simulation done --"
+            SEVERITY note;
+        end_simulation <= true;
+        WAIT;
+    END PROCESS stimuli_gen;
+END ARCHITECTURE test;
+
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
+USE work.clocks_pkg.ALL;
+
+ENTITY pwm_controller_address_tb IS
+END ENTITY;
+
+ARCHITECTURE test OF pwm_controller_address_tb IS
+    SIGNAL clk : std_logic := '0';
+    SIGNAL rst : std_logic;
+    SIGNAL set : std_logic;
+    SIGNAL servo_clk : std_logic := '0';
+    SIGNAL done : std_logic;
+    SIGNAL addrdata : std_logic_vector(7 DOWNTO 0) := (OTHERS => '0');
+    SIGNAL pwm : std_logic;
+    SIGNAL end_simulation : BOOLEAN := FALSE;
+
+    COMPONENT PWM_Counter IS
+        PORT (
+            rst : IN std_logic;
+            servo_clk : IN std_logic;
+            position : IN std_logic_vector(7 DOWNTO 0);
+            pwm : OUT std_logic);
+    END COMPONENT;
+    COMPONENT PWM_Controller IS
+        PORT (
+            rst : IN std_logic;
+            clk : IN std_logic;
+            servo_clk : IN std_logic;
+            set : IN std_logic;
+            done : OUT std_logic;
+            addrdata : IN std_logic_vector(7 DOWNTO 0);
+            pwm : OUT std_logic);
+    END COMPONENT;
+
+BEGIN
+
+    UUT : PWM_Controller
+    PORT MAP(
+        rst => rst,
+        clk => clk,
+        servo_clk => servo_clk,
+        set => set,
+        done => done,
+        addrdata => addrdata,
+        pwm => pwm);
+
+    -- Generate clock signals using clocks_pkg
+    clock(servo_clk, 1.953125 us, end_simulation);
+    clock(clk, 20 ms, end_simulation);
+
+    stimuli_gen : PROCESS
+    BEGIN
+        REPORT " -- Simulation start --"
+            SEVERITY note;
+        WAIT UNTIL rising_edge(clk);
+        set <= '0';
+        rst <= '1';
+        WAIT UNTIL rising_edge(clk);
+        rst <= '0';
+        WAIT UNTIL rising_edge(clk);
+        set <= '1';
+        addrdata <= "10100000"; -- send random address
+        WAIT UNTIL rising_edge(clk);
+        addrdata <= (OTHERS => '1'); -- NOW SEND DATA 111111111
+        WAIT UNTIL rising_edge(clk);
+        set <= '0'; -- UNSET
+        WAIT UNTIL rising_edge(clk);
+        WAIT UNTIL rising_edge(clk);
+        REPORT "-- Simulation done --"
+            SEVERITY note;
+        end_simulation <= true;
+        WAIT;
+    END PROCESS stimuli_gen;
+END ARCHITECTURE test;
+
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
+USE work.clocks_pkg.ALL;
+
+ENTITY pwm_controller_rst_tb IS
+END ENTITY;
+
+ARCHITECTURE test OF pwm_controller_rst_tb IS
+    SIGNAL clk : std_logic := '0';
+    SIGNAL rst : std_logic;
+    SIGNAL set : std_logic;
+    SIGNAL servo_clk : std_logic := '0';
+    SIGNAL done : std_logic;
+    SIGNAL addrdata : std_logic_vector(7 DOWNTO 0) := (OTHERS => '0');
+    SIGNAL pwm : std_logic;
+    SIGNAL end_simulation : BOOLEAN := FALSE;
+
+    COMPONENT PWM_Counter IS
+        PORT (
+            rst : IN std_logic;
+            servo_clk : IN std_logic;
+            position : IN std_logic_vector(7 DOWNTO 0);
+            pwm : OUT std_logic);
+    END COMPONENT;
+    COMPONENT PWM_Controller IS
+        PORT (
+            rst : IN std_logic;
+            clk : IN std_logic;
+            servo_clk : IN std_logic;
+            set : IN std_logic;
+            done : OUT std_logic;
+            addrdata : IN std_logic_vector(7 DOWNTO 0);
+            pwm : OUT std_logic);
+    END COMPONENT;
+
+BEGIN
+
+    UUT : PWM_Controller
+    PORT MAP(
+        rst => rst,
+        clk => clk,
+        servo_clk => servo_clk,
+        set => set,
+        done => done,
+        addrdata => addrdata,
+        pwm => pwm);
+
+    -- Generate clock signals using clocks_pkg
+    clock(servo_clk, 1.953125 us, end_simulation);
+    clock(clk, 20 ms, end_simulation);
+
+    stimuli_gen : PROCESS
+    BEGIN
+        REPORT " -- Simulation start --"
+            SEVERITY note;
+        -- INITIAL
+        rst <= '1';
+        WAIT UNTIL rising_edge(clk);
+        set <= '1'; -- SET
+        addrdata <= (OTHERS => '1'); -- BROADCAST
+        ASSERT done = '1'
+        REPORT "Done should remain H if data has not been sent"
+            SEVERITY error;
+        WAIT UNTIL rising_edge(clk);
+        addrdata <= (OTHERS => '1'); -- Send position max (1.75ms)
+        WAIT UNTIL rising_edge(clk);
+        WAIT UNTIL rising_edge(clk);
+        WAIT UNTIL rising_edge(clk);
+        REPORT "-- Simulation done --"
+            SEVERITY note;
+        end_simulation <= true;
+        WAIT;
+    END PROCESS stimuli_gen;
+END ARCHITECTURE test;
+
+LIBRARY IEEE;
+USE IEEE.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
+ENTITY PWM_Counter IS
+    PORT (
+        rst : IN std_logic;
+        servo_clk : IN std_logic;
+        position : IN std_logic_vector(7 DOWNTO 0);
+        pwm : OUT std_logic);
+END PWM_Counter;
+
+ARCHITECTURE behavioral OF PWM_Counter IS
+    SIGNAL counter : unsigned(13 DOWNTO 0);
+    SIGNAL offset_pos : unsigned(11 DOWNTO 0);
+BEGIN
+    offset_pos <= unsigned("0000" & position) + 640; -- offset
+    PROCESS (rst, servo_clk)
+    BEGIN
+        IF rising_edge(servo_clk) THEN
+            IF (counter < 10240) THEN
+                counter <= counter + 1;
+            ELSE
+                counter <= (OTHERS => '0');
+            END IF;
+        END IF;
+    END PROCESS;
+
+    pwm <= '1' WHEN (counter < offset_pos) ELSE
+        '0';
+
+END ARCHITECTURE;
+
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
+USE work.clocks_pkg.ALL;
+
+ENTITY pwm_counter_tb IS
+END ENTITY;
+
+ARCHITECTURE test OF pwm_counter_tb IS
+    SIGNAL clk : std_logic := '0';
+    SIGNAL rst : std_logic := '0';
+    SIGNAL servo_clk : std_logic := '0';
+    SIGNAL pwm : std_logic;
+    SIGNAL end_simulation : BOOLEAN := FALSE;
+    SIGNAL position : std_logic_vector(7 DOWNTO 0) := "00000000";
+
+    COMPONENT PWM_Counter IS
+        PORT (
+            rst : IN std_logic;
+            servo_clk : IN std_logic;
+            position : IN std_logic_vector(7 DOWNTO 0);
+            pwm : OUT std_logic);
+    END COMPONENT;
+
+BEGIN
+    U1 : PWM_Counter
+    PORT MAP(
+        rst => rst,
+        servo_clk => servo_clk,
+        position => position,
+        pwm => pwm);
+
+    -- Generate clock signals using clocks_pkg
+    clock(servo_clk, 1.953125 us, end_simulation);
+    clock(clk, 20 ms, end_simulation);
+
+    stimuli_gen : PROCESS
+        VARIABLE count : INTEGER := 0;
+    BEGIN
+        REPORT " -- Simulation start --"
+            SEVERITY note;
+        rst <= '1';
+        WAIT UNTIL rising_edge(clk);
+        rst <= '0';
+        WHILE count < 8 LOOP
+
+            WAIT UNTIL rising_edge(clk);
+            position <= std_logic_vector(unsigned(position) + 32);
+            count := count + 1;
+        END LOOP;
+        position <= "11111111";
+        WAIT UNTIL rising_edge(clk);
+        REPORT "-- Simulation done --"
+            SEVERITY note;
+        end_simulation <= TRUE;
+        WAIT;
+    END PROCESS stimuli_gen;
+
+    -- Process to calculate Ton of PWM signal
+    test_pwm : PROCESS (pwm)
+        VARIABLE time_pwm_rising : TIME;
+        VARIABLE time_pwm_falling : TIME;
+        VARIABLE time_pwm_diff : TIME;
+        VARIABLE current_pwm : INTEGER;
+        VARIABLE asserted_time : TIME;
+        VARIABLE asserted_time_diff : TIME;
+        VARIABLE servo_clock_period : TIME := 1.953125 us;
+    BEGIN
+        IF pwm = '1' THEN
+            time_pwm_rising := now;
+        ELSE
+            time_pwm_falling := now;
+            time_pwm_diff := time_pwm_falling - time_pwm_rising;
+            current_pwm := to_integer(unsigned(position));
+            asserted_time := 1.25 ms + (current_pwm * servo_clock_period);
+            asserted_time_diff := asserted_time - time_pwm_diff;
+            REPORT "Ton of PWM (ms) : " & real'image(real(time_pwm_diff / 1 ns));
+            REPORT "Current position " & INTEGER'image(current_pwm);
+            REPORT "Time difference between Ton and calculated test time: "
+                & TIME'image(asserted_time_diff);
+            ASSERT asserted_time_diff < 1 us
+            REPORT "Asserted Ton does not equal the output of the PWM Counter"
+                SEVERITY error;
+        END IF;
+    END PROCESS test_pwm;
+END test;
