@@ -1,8 +1,8 @@
-library IEEE;
-use IEEE.std_logic_1164.all;
-use ieee.numeric_std.all;
+LIBRARY IEEE;
+USE IEEE.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
 
-package pwm_pk is
-  constant BROADCAST_ADDR : std_logic_vector(7 downto 0) := "11111111";
-  constant UNICAST_ADDR : std_logic_vector(7 downto 0) := "00000001";
-end package;
+PACKAGE pwm_pk IS
+    CONSTANT BROADCAST_ADDR : std_logic_vector(7 DOWNTO 0) := "11111111";
+    CONSTANT UNICAST_ADDR : std_logic_vector(7 DOWNTO 0) := "00000001";
+END PACKAGE;
